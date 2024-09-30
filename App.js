@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Splash from './Screens/Splash/Splash/';
-import Login from './Screens/Login/Login/';
-import Inicio from './Screens/Inicio/Inicio/';
+import Splash from './Screens/Splash/Splash';
+import Login from './Screens/Login/Login';
+import Inicio from './Screens/Inicio/Inicio';
 import {useState} from 'react';
 
 

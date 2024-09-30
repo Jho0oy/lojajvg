@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, Modal, FlatList, SafeAreaView, Dimensions, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
+
 
 
 export default function Inicio() {
@@ -8,15 +10,8 @@ export default function Inicio() {
   const [modalVisiblecar, setModalVisiblecar] = useState(false);
   const [modalVisiblesobre, setModalVisiblesobre] = useState(false);
 
-  const navigate = useNavigation();
 
-  function nextscreen(){
-    navigate.navigate('Sobre')
-  }
-
-
-
-  return (
+  return ( /* modal Inicial */
     <View style={styles.container}>
       <ImageBackground source={require('./Inicio/fundo.png')} style={styles.imageBackground}>
         <View style={styles.black}>
@@ -26,11 +21,12 @@ export default function Inicio() {
           </TouchableOpacity>
           <TouchableOpacity style={styles.imageButtonc} onPress={() => setModalVisiblecar(true)}>
             <Image source={require('./Inicio/car.png')} style={styles.buttonImagec} />
-          </TouchableOpacity>
+          </TouchableOpacity>      
+          
 
-
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button}>
+          
+          <View /* Nav Bar das camisas */ style={styles.buttonContainer}>  
+            <TouchableOpacity style={styles.button}> 
               <Text style={styles.buttonText}>BRASILEIRÃO</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>
@@ -41,8 +37,10 @@ export default function Inicio() {
             </TouchableOpacity>
           </View>
 
+          
 
-          <Modal
+
+          <Modal /* modal carrinho */
             animationType="slide"
             transparent={true}
             visible={modalVisiblecar}
@@ -70,7 +68,7 @@ export default function Inicio() {
           </Modal>
 
 
-          <Modal
+          <Modal /* modal menu */
             animationType="slide"
             transparent={true}
             visible={modalVisible}
@@ -83,7 +81,7 @@ export default function Inicio() {
                 <Text style={styles.modalText}>MVF SPORT</Text>
 
                 <TouchableOpacity
-                  style={{ ...styles.openButton, backgroundColor: '#fff',margin: 20,height:40,width:250,alignItems:'center',justifyContent:'center',borderRadius:5,  }}
+                  style={{ ...styles.openButton, backgroundColor: '#fff',margin: 20,height:40,width:250,alignItems:'center',justifyContent:'center',borderRadius:5}}
                   onPress={() => setModalVisible(!modalVisible)}>
                   <Text style={styles.textStyleHome}>HOME</Text>
                 </TouchableOpacity>
@@ -93,30 +91,31 @@ export default function Inicio() {
                   style={{...styles.openButton, backgroundColor: '#fff',margin: 20,height:40,width:250,alignItems:'center',justifyContent:'center',borderRadius:5}}>
                   <Text style={styles.textStyle}>SOBRE NÓS</Text>
                 </TouchableOpacity>
-                <Modal
-                  animationType="slide"
-                  transparent={true}
-                  visible={modalVisiblesobre}
-                  onRequestClose={() => {
-                    setModalVisiblesobre(!modalVisiblesobre);
-                  }}>
-                  <ImageBackground source={require('./Inicio/fundo.png')} style={styles.imageBackground}>
-                  <View style={styles.centeredView}>
-                  <View style={styles.black2}>
-                    <Text style={styles.textsobre}>Sobre Nós</Text>
+                
+                
+                <Modal /* modal sobre nós */
+                animationType="slide"
+                transparent={true}
+                visible={modalVisiblesobre}
+                onRequestClose={() => {setModalVisiblesobre(!modalVisiblesobre);}}>
+                <ImageBackground source={require('./Inicio/fundo.png')} style={styles.imageBackground}>
+                <Text style={styles.textsobrenos}>Aqui vai ficar o texto sobre nós</Text>
+                <View style={styles.centeredVieww}>
+                <View style={styles.black3}> 
+                <Text style={styles.textosobree}>SOBRE NÓS</Text>
+                </View>
+                  <View style={styles.telinhameio}>
                   </View>
-                    <View style={styles.modalView2}>
-                    <View style={styles.camisassobre}>
-                    </View>
+                  <View style={styles.modalView3}>
                     <TouchableOpacity
-                      style={{ ...styles.openButton,margin: 20,height:40,width:250,alignItems:'center',justifyContent:'center',right:30,borderRadius:5,top:-250,left:-220, }}
+                      style={{ ...styles.openButton,margin: 20,height:40,width:250,alignItems:'center',justifyContent:'center',right:30,borderRadius:5,top:-140,left:-205}}
                       onPress={() => setModalVisiblesobre(!modalVisiblesobre)}>
                       <Image source={require('./Inicio/voltar.png')} style={styles.buttonImage} />
                     </TouchableOpacity>
                   </View>
                 </View>
                 </ImageBackground>
-            </Modal>
+              </Modal>
                
               </View>
             </View>
@@ -133,6 +132,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column"
+  },
+  containerr: {
+    flex:1
+  },
+  imgcamisa: {
+    width:100,
+    top:350,
+    textAlign:"center",
   },
   imageBackground: {
     flex: 1,
@@ -160,19 +167,6 @@ const styles = StyleSheet.create({
     height: 300,
     top: -370,
   },
-  black2: {
-    backgroundColor: '#000',
-    width: 500,
-    height: 300,
-    top: 100,
-    alignItems:"center"
-  },
-  textsobre: {
-    Color: '#fff',
-    fontSize: 100,
-    alignItems:'center',
-    top: 50,
-  },
   buttonContainer: {
     flexDirection: 'row',
     marginTop: 20,
@@ -187,7 +181,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   camisascar:{
-    backgroundColor:"#000",
+    backgroundColor:"#fff",
     height:130,
     width:400,
     top:200,
@@ -206,7 +200,7 @@ const styles = StyleSheet.create({
     right: 40,
   },
   buttonImage: {
-    top: 170,
+    top: 160,
     height: 70,
     width: 70,
     right: -170,
@@ -265,7 +259,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
   },
   modalView: {
     margin: 20,
@@ -293,8 +286,46 @@ const styles = StyleSheet.create({
     fontSize: 45,
     fontWeight: 'bold',
     color: 'black',
+    marginTop: 180
+  },
 
+  /*modal sobre nós */
+  centeredVieww: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  black3: {
+    backgroundColor: '#000',
+    width: 410,
+    height: 150,
+    top: 134,
+    alignItems:'center',
+    justifyContent:'center',
+
+    position:'static'
+  },
+  modalView3:{
+    width:50,
+    height:1000,
+    right:250,
+  },
+  textosobree: {
+    color: '#fff',
+    fontSize: 30,
+  },
+  textsobrenos: {
+    color: '#000',
+    fontSize: 20,
+    top: 155
   }
+  /*telinhameio:{
+    backgroundColor:"#fff",
+    height:130,
+    width:400,
+    top:200,
+    right:-50,
+  },*/
 });
 
 

@@ -1,4 +1,3 @@
-
 import { StatusBar, replace, router, Modal, StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, TextInput, Alert, Pressable} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -70,10 +69,12 @@ export default function Login() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
+        // Navegar para a tela "Inicio" após login bem-sucedido
+        navigate.navigate('Inicio');
       })
       .catch((error) => {
         const errorMessage = error.message;
-        alert('Todos os campos devem ser preenchidos!');
+        alert('Todos os campos devem ser preenchidos!' + errorMessage);
       });
   }
 
@@ -127,7 +128,7 @@ export default function Login() {
           <TouchableOpacity onPress={openCadastrarModal}>
             <Text style={styles.cadastrar}>Cadastrar</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={(userLogin)=>{nextscreen()}} style={styles.button}>
+          <TouchableOpacity onPress={(userLogin)} style={styles.button}>
             <Text style={styles.buttonText}>Entrar</Text>
           </TouchableOpacity>
         </View>

@@ -1,8 +1,7 @@
-import React, { } from 'react';
+import {useState} from 'react';
 import { StyleSheet, Text, View, Image,  ImageBackground, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {useState} from 'react';
 
 export default function Splash() {
   const navigate = useNavigation();
