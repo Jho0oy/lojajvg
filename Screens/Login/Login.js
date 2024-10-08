@@ -2,20 +2,16 @@ import { StatusBar, replace, router, Modal, StyleSheet, Text, View, Image, Image
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
-import {useState} from 'react';
+import { useState } from 'react';
 import { auth } from '../firebaseconfig';
-import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword} from "firebase/auth";
-import { Router } from 'react-router-dom';
-
-
-
+import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login() {
   const navigate = useNavigation();
 
-    function nextscreen(){
-        navigate.navigate('Inicio')
-    }
+  function nextscreen() {
+    navigate.navigate('Inicio');
+  }
 
   const [isEsqueceuSenhaModalVisible, setIsEsqueceuSenhaModalVisible] = useState(false);
   const [isCadastrarModalVisible, setIsCadastrarModalVisible] = useState(false);
@@ -24,86 +20,75 @@ export default function Login() {
     setIsEsqueceuSenhaModalVisible(true);
   };
 
-
   const closeEsqueceuSenhaModal = () => {
     setIsEsqueceuSenhaModalVisible(false);
   };
-
 
   const openCadastrarModal = () => {
     setIsCadastrarModalVisible(true);
   };
 
-
   const closeCadastrarModal = () => {
     setIsCadastrarModalVisible(false);
   };
-
 
   const [userMail, setUserMail] = useState('');
   const [userPass, setUserPass] = useState('');
   const [userRePass, setUserRePass] = useState('');
 
-  //resetar senha
+  // Resetar senha
   function replacePass() {
     if (userMail !== '') {
       sendPasswordResetEmail(auth, userMail)
-      .then(() => {
-        alert("Foi enviado um email para:" + userMail + ".Verifique a sua caixa de email.");
-        router.replace('/');
-      })
-      .catch((error) => {
-        const errorMessage = error.massage;
-        alert("Ops! Alguma coisa não deu certo. " + errorMessage + "Tente novamente ou volte para tela de login");
-        return;
-      });
+        .then(() => {
+          alert("Foi enviado um email para: " + userMail + ". Verifique sua caixa de email.");
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          alert("Ops! Alguma coisa não deu certo. " + errorMessage + " Tente novamente ou volte para tela de login");
+        });
     } else {
       alert("É preciso informar um e-mail válido para efetuar a redefinição de senha");
-      return;
     }
   }
 
-  //logar na conta existente
+  // Logar na conta existente
   function userLogin() {
     signInWithEmailAndPassword(auth, userMail, userPass)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        // Navegar para a tela "Inicio" após login bem-sucedido
-        navigate.navigate('Inicio');
+        // Navegar para a tela "Inicio" após login bem-sucedido, passando o email do usuário
+        navigate.navigate('Inicio', { userEmail: userMail });
       })
       .catch((error) => {
         const errorMessage = error.message;
-        alert('Todos os campos devem ser preenchidos!' + errorMessage);
+        alert('Todos os campos devem ser preenchidos! ' + errorMessage);
       });
   }
 
-  //cadastrar usuário
-  function newUser(){
-    if (userMail === '' || userPass === '' || userRePass ==='') {
-      alert ('Todos os campos devem ser preenchidos!');
-      return; 
+  // Cadastrar usuário
+  function newUser() {
+    if (userMail === '' || userPass === '' || userRePass === '') {
+      alert('Todos os campos devem ser preenchidos!');
+      return;
     }
     if (userPass !== userRePass) {
-      alert('a senha e a confirmação não são iguais');
+      alert('A senha e a confirmação não são iguais');
       return;
     } else {
       createUserWithEmailAndPassword(auth, userMail, userPass)
-      .then ((userCredential) => {
-        const user = userCredential.user;
-        alert('O usuário "' + userMail + ' "foi criado. Faça o login');
-        router.replace('/')
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        alert(errorMessage);
-        router.replace('/');
-      });
+        .then((userCredential) => {
+          const user = userCredential.user;
+          alert('O usuário "' + userMail + '" foi criado. Faça o login');
+          setIsCadastrarModalVisible(false);
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          alert(errorMessage);
+        });
     }
   }
-  
-
-
 
   return (
     <View style={styles.container}>
@@ -134,20 +119,21 @@ export default function Login() {
         </View>
       </ImageBackground>
 
-      <Modal /*Modal de esqeuceu senha*/
+      {/* Modal para esqueceu senha */}
+      <Modal
         animationType="slide"
         transparent={true}
         visible={isEsqueceuSenhaModalVisible}
         onRequestClose={closeEsqueceuSenhaModal}
-        >
-          <View style={styles.modal1}>
-            <ImageBackground source={require('./Login/login.png')} style={styles.imageBackground}>
+      >
+        <View style={styles.modal1}>
+          <ImageBackground source={require('./Login/login.png')} style={styles.imageBackground}>
             <TouchableOpacity onPress={closeEsqueceuSenhaModal} style={styles.closeIcon}>
-              <Image source={require('./Login/voltar.png')} style={{ width: 90, height: 100, top: 547}}/>
+              <Image source={require('./Login/voltar.png')} style={{ width: 90, height: 100, top: 547 }} />
             </TouchableOpacity>
             <View style={styles.modalContentt}>
               <View>
-                <View style={styles.overlay2}>                
+                <View style={styles.overlay2}>
                   <Text style={styles.overlayText1}>Resetar Senha</Text>
                   <TextInput style={styles.input1}
                     placeholder="Informe o email"
@@ -158,16 +144,17 @@ export default function Login() {
                     onChangeText={setUserMail}
                   />
                   <Pressable style={styles.buttonn} onPress={replacePass}>
-                  <Text style={styles.buttonText}>Resetar</Text>
+                    <Text style={styles.buttonText}>Resetar</Text>
                   </Pressable>
                 </View>
               </View>
             </View>
-            </ImageBackground>
-          </View>
+          </ImageBackground>
+        </View>
       </Modal>
-      
-      <Modal /*Modal de cadastrar*/
+
+      {/* Modal para cadastrar */}
+      <Modal
         animationType="slide"
         transparent={true}
         visible={isCadastrarModalVisible}
@@ -175,14 +162,12 @@ export default function Login() {
       >
         <View style={styles.modal1}>
           <ImageBackground source={require('./Login/login.png')} style={styles.imageBackground}>
-
-          <TouchableOpacity onPress={closeCadastrarModal} style={styles.closeIcon}>
-            <Image source={require('./Login/voltar.png')} style={{ width: 90, height: 100, top: 547}}/>
-          </TouchableOpacity>
-
+            <TouchableOpacity onPress={closeCadastrarModal} style={styles.closeIcon}>
+              <Image source={require('./Login/voltar.png')} style={{ width: 90, height: 100, top: 547 }} />
+            </TouchableOpacity>
             <View style={styles.modalContent}>
               <View>
-                <View style={styles.overlay3}>                
+                <View style={styles.overlay3}>
                   <Text style={styles.overlayText2}>Cadastre-se Aqui!</Text>
                   <TextInput style={styles.input2}
                     placeholder="Email"
@@ -206,19 +191,20 @@ export default function Login() {
                     value={userRePass}
                     onChangeText={setUserRePass}
                   />
-                  <Pressable style={styles.button} onPress={newUser}>             
+                  <Pressable style={styles.button} onPress={newUser}>
                     <Text style={styles.buttonText}>Cadastrar </Text>
                   </Pressable>
                 </View>
               </View>
             </View>
-
           </ImageBackground>
         </View>
       </Modal>
     </View>
   );
 }
+
+// Estilos omitidos por questões de espaço...
 
 
 const styles = StyleSheet.create({
