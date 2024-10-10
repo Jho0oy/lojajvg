@@ -3,10 +3,6 @@ import { StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, Modal
 import { useNavigation, useRoute} from '@react-navigation/native';
 
 
-
-
-
-
 export default function Inicio() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisiblecar, setModalVisiblecar] = useState(false);
@@ -25,12 +21,9 @@ export default function Inicio() {
   const userEmail = route.params?.userEmail;
 
 
-  return ( /* modal Inicial */
+  return ( /* tela Inicial */
     <View style={styles.container}>
       <ImageBackground source={require('./Inicio/fundo.png')} style={styles.imageBackground}>
-
-      
-
         <View style={styles.black}>
           <Text style={styles.text}>MVF SPORT</Text>
           <TouchableOpacity style={styles.imageButton} onPress={() => setModalVisible(true)}>
@@ -41,7 +34,7 @@ export default function Inicio() {
           </TouchableOpacity>      
           
 
-          <View /* Nav Bar das camisas */ style={styles.buttonContainer}>  
+          <View /* V do Nav Bar dos botoes das camisas */ style={styles.buttonContainer}>  
             <TouchableOpacity style={styles.button}> 
               <Text style={styles.buttonText}>BRASILEIRÃO</Text>
             </TouchableOpacity>
@@ -55,60 +48,22 @@ export default function Inicio() {
 
 
 
-          <View /* Nav Bar das camisas */ style={styles.camisasContainer} > 
-            <FlatList
-              data={camisas}
-              keyExtractor={(item) => item.id}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.flatListContent} // Use um estilo definido para a lista
-              renderItem={({ item }) => (
-                <View style={styles.camisaCard}>
-                  <View style={styles.camisaItem}>
-                    <Image source={item.image} style={styles.camisaImage} />
-                  </View>
-                  <Text style={styles.camisaNome}>Nome do Produto</Text>
-                  <Text style={styles.camisaPreco}>R$ 99,90</Text>
-                  <View style={styles.buttonContainerCard}>
-                    <TouchableOpacity style={styles.comprarButton}>
-                      <Text style={styles.buttonTextCard}>Comprar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.addCarrinhoButton}>
-                      <Text style={styles.buttonTextCard}>Adicionar ao Carrinho</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              )}
-            />
-          </View>
-
-
-
           <Modal /* modal carrinho */
-            animationType="slide"
-            transparent={true}
-            visible={modalVisiblecar}
-            onRequestClose={() => {
-              setModalVisiblecar(!modalVisiblecar);
-            }}>
+            animationType="slide" transparent={true} visible={modalVisiblecar} onRequestClose={() => {setModalVisiblecar(!modalVisiblecar);}}>
             <ImageBackground source={require('./Inicio/fundo.png')} style={styles.imageBackground}>
             <View style={styles.centeredView}>
-            <View style={styles.black2}>
-              <Text style={styles.textcar}>CARRINHO</Text>
-              </View>
-              <View style={styles.modalView2}>
-              <View style={styles.camisascar}>
-              </View>
-
-                <TouchableOpacity
-                  style={{ ...styles.openButton,margin: 20,height:40,width:250,alignItems:'center',justifyContent:'center',right:30,borderRadius:5,top:-320,left:-220, }}
-                  onPress={() => setModalVisiblecar(!modalVisiblecar)}>
-                  <Image source={require('./Inicio/voltar.png')} style={styles.buttonImage} />
-                </TouchableOpacity>
-           
-              </View>
+            <View style={styles.black3}>
+            <Text style={styles.textosobree}>CARRINHO</Text>
             </View>
-            </ImageBackground>
+
+            <View style={styles.modalView3}>
+            <TouchableOpacity style={{ ...styles.openButton,margin: 20,height:40,width:250,alignItems:'center',justifyContent:'center',right:30,borderRadius:5,top:-140,left:-205}} 
+            onPress={() => setModalVisiblecar(!modalVisiblecar)}>
+              <Image source={require('./Inicio/voltar.png')} style={styles.buttonImageV} />   
+            </TouchableOpacity>
+              </View>
+              </View>
+              </ImageBackground>
           </Modal>
 
           
@@ -140,30 +95,25 @@ export default function Inicio() {
                 </TouchableOpacity>
                 
                 
-                <Modal /* modal sobre nós */
-                animationType="slide"
-                transparent={true}
-                visible={modalVisiblesobre}
-                onRequestClose={() => {setModalVisiblesobre(!modalVisiblesobre);}}>
+              <Modal /* modal sobre nós */animationType="slide" transparent={true} visible={modalVisiblesobre} onRequestClose={() => {setModalVisiblesobre(!modalVisiblesobre);}}>
+
                 <ImageBackground source={require('./Inicio/fundo.png')} style={styles.imageBackground}>
                 <Text style={styles.textsobrenos}>Aqui vai ficar o texto sobre nós</Text>
                 <View style={styles.centeredVieww}>
                 <View style={styles.black3}> 
-                <Text style={styles.textosobree}>SOBRE NÓS</Text>
+                <Text style={styles.textosobree}>SOBRE NÓS</Text>               
                 </View>
-                  <View style={styles.telinhameio}>
-                  </View>
-                  <View style={styles.modalView3}>
-                    <TouchableOpacity
-                      style={{ ...styles.openButton,margin: 20,height:40,width:250,alignItems:'center',justifyContent:'center',right:30,borderRadius:5,top:-140,left:-205}}
-                      onPress={() => setModalVisiblesobre(!modalVisiblesobre)}>
-                      <Image source={require('./Inicio/voltar.png')} style={styles.buttonImage} />
-                    </TouchableOpacity>
-                  </View>
+                <View style={styles.modalView3}>
+                  <TouchableOpacity
+                    style={{ ...styles.openButton,margin: 20,height:40,width:250,alignItems:'center',justifyContent:'center',right:30,borderRadius:5,top:-140,left:-205}}
+                    onPress={() => setModalVisiblesobre(!modalVisiblesobre)}>
+                    <Image source={require('./Inicio/voltar.png')} style={styles.buttonImageV} />
+                  </TouchableOpacity>
+                </View>
                 </View>
                 </ImageBackground>
               </Modal>
-               
+
               </View>
             </View>
           </Modal>
@@ -193,7 +143,7 @@ const styles = StyleSheet.create({
   
   imageBackground: {
     flex: 1,
-    resizeMode: "cover",
+    resizeMode: "contain",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -202,8 +152,16 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 42,
     fontWeight: "bold",
-    bottom: -170,
+    top: 190,
     right: -120,
+  },
+
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginHorizontal: -1,
+    borderRadius: 5,
+    top: 25,
   },
   
   textcar: {
@@ -217,7 +175,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     width: 480,
     height: 300,
-    top: -370,
+    top: -400,
   },
   
   buttonContainer: {
@@ -227,20 +185,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginHorizontal: -1,
-    borderRadius: 5,
-  },
-  
-  camisascar: {
-    backgroundColor: "#fff",
-    height: 130,
-    width: 400,
-    top: 200,
-    right: -50,
-  },
   
   buttonText: {
     color: '#fff',
@@ -248,15 +192,27 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   
-  imageButton: {
-    top: -100,
+  imageButton: { // imagem menu lateral
+    top: -70,
     left: -130,
     height: 10,
-    width: 30,
     right: 40,
+  },
+
+  imageButtonc: { // imagem carrinho
+    top: -70,
+    height: 10,
+    right: -260,
   },
   
   buttonImage: {
+    top: 160,
+    height: 70,
+    width: 70,
+    right: -170,
+  },
+
+  buttonImageV: {
     top: 160,
     height: 70,
     width: 70,
@@ -277,13 +233,7 @@ const styles = StyleSheet.create({
     top: 80,
   },
   
-  imageButtonc: {
-    top: -100,
-    height: 40,
-    width: 40,
-    right: -260,
-    backgroundColor: "#fff",
-  },
+  
   
   buttonImagec: {
     top: 160,
@@ -388,15 +338,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     top: 155,
   },
-  
-  camisasContainer: {
-    marginTop: 20,
+
+  camisasContainerr: {
     alignItems: 'center', // Centraliza os itens horizontalmente
+    top:-500,
   },
+
   
   flatListContent: {
     justifyContent: 'center', // Centraliza os itens dentro da lista
     alignItems: 'center',
+    
   },
   
   camisaCard: {
