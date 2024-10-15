@@ -34,7 +34,7 @@ export default function Inicio() {
           </TouchableOpacity>      
           
 
-          <View /* V do Nav Bar dos botoes das camisas */ style={styles.buttonContainer}>  
+          <View /* View do Nav Bar dos botoes das camisas */ style={styles.buttonContainer}>  
             <TouchableOpacity style={styles.button}> 
               <Text style={styles.buttonText}>BRASILEIRÃO</Text>
             </TouchableOpacity>
@@ -48,7 +48,7 @@ export default function Inicio() {
 
 
 
-          <Modal /* modal carrinho */
+        <Modal /* modal carrinho */
             animationType="slide" transparent={true} visible={modalVisiblecar} onRequestClose={() => {setModalVisiblecar(!modalVisiblecar);}}>
             <ImageBackground source={require('./Inicio/fundo.png')} style={styles.imageBackground}>
             <View style={styles.centeredView}>
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 42,
     fontWeight: "bold",
-    top: 190,
+    top: 185,
     right: -120,
   },
 
